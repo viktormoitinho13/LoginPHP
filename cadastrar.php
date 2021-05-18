@@ -5,29 +5,23 @@
     if($cadastrar)
     {
         include_once 'conexao.php';
-        $dados_cadastro = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        $dados_cadastro['senha'] = password_hash($dados_cadastro['senha'], PASSWORD_DEFAULT);
-
-        $result_usuario = "INSERT INTO usuarios (nome, email, usuario, senha) VALUES 
-        (
-            ' ".$dados_cadastro['nome']." ',
-            ' ".$dados_cadastro['email']." ',
-            ' ".$dados_cadastro['usuario']." ',
-            ' ".$dados_cadastro['senha']." '
-        )    ";
-
-        $resultado_usuario = mysqli_query($conn, $result_usuario);
-
-        if(mysqli_insert_id($conn))
-        {
-            $_SESSION['msgcadastro'] = "Usuário cadastrado com suscesso";
-            header("location:login.php");
-
-
-        }else 
-            {
-                $_SESSION['msg'] = "Erro ao cadastrar usuário";
-            }
+        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        //var_dump($dados);
+        $dados['senha'] = password_hash($dados['senha'], PASSWORD_DEFAULT);
+        
+        $result_usuario = "INSERT INTO usuarios (nome, email, usuario, senha) VALUES (
+                        '" .$dados['nome']. "',
+                        '" .$dados['email']. "',
+                        '" .$dados['usuario']. "',
+                        '" .$dados['senha']. "'
+                        )";
+        $resultado_usario = mysqli_query($conn, $result_usuario);
+        if(mysqli_insert_id($conn)){
+            $_SESSION['msgcad'] = "Usuário cadastrado com sucesso";
+            header("Location: login.php");
+        }else{
+            $_SESSION['msg'] = "Erro ao cadastrar o usuário";
+        }
     }
 
 
